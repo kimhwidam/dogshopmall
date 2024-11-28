@@ -1,0 +1,15 @@
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+{% block title %}회원가입 - 개밥천국{% endblock %}
+{% block content %}
+  <div class="container">
+    <h2>회원가입</h2>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">가입하기</button>
+    </form>
+  </div>
+{% endblock %} {% endcomment %}
+
+
+

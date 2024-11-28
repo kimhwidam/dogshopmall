@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>퍼피스푼</title>
+
+    <!-- slider stylesheet -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/static/assets/css/bootstrap.css"
+    />
+    <link href="/static/assets/css/style.css?v=2" rel="stylesheet" /> 
+    <link href="/static/assets/css/responsive.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="hero_area">
+      <!-- header section strats -->
+      <header class="header_section">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="{% url 'home' %}">
+            <span> 퍼피스푼</span>
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class=""></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <li
+                class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+              >
+                <a class="nav-link" href="{% url 'home' %}">홈</a>
+              </li>
+              <li
+                class="nav-item {% if request.resolver_match.url_name == 'recommendation' %}active{% endif %}"
+              >
+                <a class="nav-link" href="{% url 'recommendation' %}"
+                  >사료 추천</a
+                >
+              </li>
+              <li
+                class="nav-item {% if request.resolver_match.url_name == 'product_view' %}active{% endif %}"
+              >
+                <a class="nav-link" href="{% url 'product_view' %}"
+                  >사료 정보</a
+                >
+              </li>
+              <li
+                class="nav-item {% if request.resolver_match.url_name == 'order_list' %}active{% endif %}"
+              >
+                <a class="nav-link" href="{% url 'order_list' %}">주문 조회</a>
+              </li>
+              <li
+                class="nav-item {% if request.resolver_match.url_name == 'cart_items' %}active{% endif %}"
+              >
+                <a class="nav-link" href="{% url 'cart_items' %}">장바구니</a>
+              </li>
+            </ul>
+
+            <div class="user_option">
+              {% if user.is_authenticated %}
+              <a href="{% url 'user:logout' %}">
+                <span>로그아웃</span>
+              </a>
+              {% else %}
+              <a href="{% url 'user:login' %}">
+                <span>로그인</span>
+              </a>
+              <a href="{% url 'user:registration' %}">
+                <span>회원가입</span>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </nav>
+      </header>
+      <!-- end header section -->
+
+      <!-- slider section -->
+
+      {% block slider %} {% endblock %}
+
+      <!-- end slider section -->
+    </div>
+    <!-- end hero area -->
+
+    <!-- shop section -->
+
+    {% block section %} {% endblock %}
+
+    <!-- end shop section -->
+
+    <!-- why section -->
+
+    {% block content %} {% endblock %}
+
+    <!-- end why section -->
+
+    <!-- info section -->
+
+    <section class="info_section layout_padding2-top">
+      <div class="social_container">
+        <div class="social_box">
+          <a href="">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+          </a>
+          <a href="">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+          </a>
+          <a href="">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+          </a>
+          <a href="">
+            <i class="fa fa-youtube" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+      <div class="info_container">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-lg-3">
+              <h6>퍼피스푼 소개</h6>
+              <p>
+                퍼피스푼은 반려견의 크기, 연령, 상태, 견종을 고려하여 해당 반려견의 맞춤 사료 추천을 해드립니다
+                
+   
+              </p>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <div class="info_form">
+                <h6>1:1문의</h6>
+                <form action="#">
+                  <input type="email" placeholder="Enter your email" />
+                  <button>Send</button>
+                </form>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <h6>구매안전 서비스 가입사실 확인</h6>
+              <p>
+                고객님은 안전거래를 위해 카드 등으로 결제시 저희 쇼핑몰에 가입한 구매안전서비스를 이용하실 수 있습니다
+              </p>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <h6>주소</h6>
+              <div class="info_link-box">
+                <a href="">
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>
+                  <span> 대전광역시 대덕구 한남로 70 </span>
+                </a>
+                <a href="">
+                  <i class="fa fa-phone" aria-hidden="true"></i>
+                  <span> 010-5022-6765 </span>
+                </a>
+                <a href="">
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <span> emddjr178@gmail.com</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- footer section -->
+      <footer class="footer_section">
+        <div class="container">
+          <p>
+            &copy; 2023 All Rights Reserved By
+            <a href="https://html.design/">퍼피스푼</a>
+          </p>
+        </div>
+      </footer>
+      <!-- footer section -->
+    </section>
+
+    <!-- end info section -->
+    <script src="/static/assets/js/jquery-3.4.1.min.js"></script>
+    <script src="/static/assets/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="/static/assets/js/custom.js"></script>
+  </body>
+</html>

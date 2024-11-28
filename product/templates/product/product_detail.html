@@ -1,0 +1,199 @@
+{% extends "base.html" %} 
+
+{% load static %} 
+
+{% block header %}
+<header class="header_section">
+  <nav class="navbar navbar-expand-lg custom_nav-container">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <span> 개밥천국 </span>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class=""></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}"
+            >홈 <span class="sr-only">(current)</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'recommendation' %}"> 사료 추천 </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'product_view' %}"> 사료 정보 </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'order_list' %}"> 주문 조회 </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'user:registration' %}">
+            회원가입
+          </a>
+        </li>
+      </ul>
+      <div class="user_option">
+        <a href="{% url 'user:login' %}">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <span> 로그인 </span>
+        </a>
+        <a href="{% url 'cart_items' %}">
+          <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+          <span> 장바구니 </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+{% endblock %} 
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    {% if product_list %}
+    <div class="col-md-6">
+      <img
+        src="{% static product_list.0.image %}"
+        alt="{{ product_list.0.name }}"
+        width="410"
+        height="440"
+      />
+    </div>
+    <div class="col-md-6">
+      <h2>{{ product_list.0.name }}</h2>
+      <p>브랜드: {{ product_list.0.brand }}</p>
+      <p>가격: {{ product_list.0.price }} 원</p>
+      <p>조단백질: {{ product_list.0.cp }}</p>
+      <p>조지방: {{ product_list.0.cf }}</p>
+      <p>조섬유: {{ product_list.0.cr }}</p>
+      <p>조조분: {{ product_list.0.cb }}</p>
+      <p>칼슘: {{ product_list.0.ca }}</p>
+      <p>인: {{ product_list.0.po }}</p>
+      <p>수분: {{ product_list.0.wa }}</p>
+
+      <div class="d-flex justify-content-between">
+        <form
+          method="post"
+          action="{% url 'add_to_cart' product_list.0.product_id user.id %}"
+          id="addToCartForm"
+        >
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">장바구니</button>
+        </form>
+      </div>
+      <script>
+        function addToCart() {
+          var addToCartConfirmation = confirm("장바구니에 담으시겠습니까?");
+    
+          // 확인이 눌렸을 경우
+          if (addToCartConfirmation) {
+            // 폼을 submit 합니다.
+            document.getElementById("addToCartForm").submit();
+            alert("장바구니에 제품이 추가되었습니다.");
+          } else {
+            // 아니오를 눌렀을 경우 아무 동작도 하지 않습니다.
+            alert("장바구니에 제품 추가가 취소되었습니다.");
+          }
+        }
+      </script>
+    </div>
+    {% else %}
+    <div class="col-md-12">
+      <p>제품이 존재하지 않습니다.</p>
+    </div>
+    {% endif %}
+  </div>
+  <h4>상품 리뷰</h4>
+  {% for review in reviews %}
+  <div class="review-box">
+    <div class="review">
+      <p>평점: {{ review.rating }}</p>
+      <p>후기: {{ review.content }}</p>
+      <p>작성일자: {{ review.created_at }}</p>
+      <div class="star-rating" data-rating="{{ review.rating }}">
+        {% for i in "12345" %}
+        <span>{% if i|add:'0' <= review.rating %}★{% else %}☆{% endif %}</span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <style>
+    #rating {
+      width: 100px; /* 원하는 너비로 조정 */
+    }
+  
+    #content {
+      width: 100%; /* 부모 엘리먼트의 너비를 100%로 설정하여 가로폭을 최대한으로 늘림 */
+      height: 150px; /* 원하는 높이로 조정 */
+    }
+  </style>
+
+  <h6><strong>리뷰 작성</strong></h6>
+  <form
+    method="post"
+    action="{% url 'submit_review' product_list.0.product_id %}"
+  >
+    {% csrf_token %}
+    <label for="rating">평점:</label>
+    <input type="number" id="rating" name="rating" min="1" max="5" />
+    <br />
+    <label for="content">후기:</label>
+    <textarea id="content" name="content"></textarea>
+    <br />
+    <div id="star-rating"></div>
+    <button type="submit">확인</button>
+  </form>
+
+  <script>
+    const ratingInput = document.getElementById("rating");
+    const starRating = document.getElementById("star-rating");
+
+    ratingInput.addEventListener("input", (event) => {
+      const rating = event.target.value;
+      starRating.innerHTML = "";
+      for (let i = 1; i <= 5; i++) {
+        const star = document.createElement("span");
+        star.innerHTML = i <= rating ? "★" : "☆";
+        starRating.appendChild(star);
+      }
+    });
+
+    const reviewStarElements = document.querySelectorAll(
+      ".review .star-rating"
+    );
+    reviewStarElements.forEach((element) => {
+      const rating = element.dataset.rating;
+      element.innerHTML = "";
+      for (let i = 1; i <= 5; i++) {
+        const star = document.createElement("span");
+        star.innerHTML = i <= rating ? "★" : "☆";
+        element.appendChild(star);
+      }
+    });
+  </script>
+
+  <style>
+    .review-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    .review {
+      margin-bottom: 10px;
+    }
+  </style>
+</div>
+{% endblock %}

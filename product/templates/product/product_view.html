@@ -1,0 +1,246 @@
+{% extends "base.html" %} 
+
+{% load static %}
+
+{% block header %}
+<header class="header_section">
+  <nav class="navbar navbar-expand-lg custom_nav-container">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <span> 개밥천국 </span>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class=""></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}"
+            >홈 <span class="sr-only">(current)</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'recommendation' %}"> 사료 추천 </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'product_view' %}"> 사료 정보 </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'order_list' %}"> 주문 조회 </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'user:registration' %}">
+            회원가입
+          </a>
+        </li>
+      </ul>
+      <div class="user_option">
+        <a href="{% url 'user:login' %}">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <span> 로그인 </span>
+        </a>
+        <a href="{% url 'cart_items' %}">
+          <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+          <span> 장바구니 </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+{% endblock %} 
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    브랜드명 &nbsp;
+    <select id="brand_select" name="brand_select">
+      <option value="" {% if not selected_brand %}selected{% endif %}>---------</option>
+      {% for brand_code in brands %}
+          <option value="{{ brand_code }}" {% if selected_brand == brand_code %}selected{% endif %}>
+              {% if brand_code == 'EQ' %}
+                  이퀄리브니오
+              {% elif brand_code == 'HM' %}
+                  하림
+              {% elif brand_code == 'ZW' %}
+                  지위픽
+              {% elif brand_code == 'RN' %}
+                  로얄캐닌
+              {% elif brand_code == 'FI' %}
+                  피쉬포독
+              {% elif brand_code == 'AV' %}
+                  아보덤
+              {% elif brand_code == 'OJ' %}
+                  오리젠
+              {% elif brand_code == 'NO' %}
+                  나우
+              {% elif brand_code == 'AL' %}
+                  알파벳
+              {% elif brand_code == 'SN' %}
+                  네츄리스
+              {% elif brand_code == 'WI' %}
+                  위시본
+              {% elif brand_code == 'AF' %}
+                  ANF
+              {% elif brand_code == 'ON' %}
+                  오네이쳐
+              {% elif brand_code == 'NB' %}
+                  네츄럴발란스
+              {% elif brand_code == 'NC' %}
+                  네츄럴코
+              {% elif brand_code == 'ZI' %}
+                  지그니쳐
+              {% elif brand_code == 'GB' %}
+                  건강백서
+              {% elif brand_code == 'LA' %}
+                  라메르
+              {% elif brand_code == 'AM' %}
+                  아미오
+              {% elif brand_code == 'GI' %}
+                  지니펫
+              {% elif brand_code == 'WE' %}
+                  웰니스
+              {% elif brand_code == 'MD' %}
+                  메라독
+              {% elif brand_code == 'GO' %}
+                  GO!
+              {% elif brand_code == 'AC' %}
+                  아카나
+              {% elif brand_code == 'PA' %}
+                  피앤피
+              {% elif brand_code == 'NV' %}
+                  네이쳐스버라이어티
+              {% elif brand_code == 'OV' %}
+                  오븐베이크
+              {% elif brand_code == 'PP' %}
+                  퓨리나
+              {% elif brand_code == 'HN' %}
+                  하이텍네츄럴스
+              {% elif brand_code == 'IS' %}
+                  이즈칸 시니어
+              {% elif brand_code == 'US' %}
+                  오가닉 퓨어6
+              {% elif brand_code == 'PM' %}
+                  프리미엄
+              {% elif brand_code == 'DD' %}
+                  닥터도비
+              {% elif brand_code == 'PO' %}
+                  프로베스트
+              {% elif brand_code == 'CA' %}
+                  캐니대
+              {% elif brand_code == 'KK' %}
+                  커틀랜드
+              {% elif brand_code == 'AD' %}
+                  아딜론
+              {% elif brand_code == 'DR' %}
+                  도그랑
+              {% elif brand_code == 'MZ' %}
+                  밀레쥬
+              {% elif brand_code == 'AA' %}
+                  아침에사료
+              {% elif brand_code == 'PR' %}
+                  프레리
+              {% elif brand_code == 'DN' %}
+                  닥처95
+              {% elif brand_code == 'EO' %}
+                  에보
+              {% elif brand_code == 'BW' %}
+                  블랙우드 퍼피
+              {% elif brand_code == 'PT' %}
+                  프라임더
+              {% elif brand_code == 'SD' %}
+                  사이언스다이어트
+              {% elif brand_code == 'SA' %}
+                  세니메드
+              {% elif brand_code == 'ZE' %}
+                  제니스
+              {% elif brand_code == 'CE' %}
+                  시저
+              {% elif brand_code == 'PS' %}
+                  프리스크립션
+              {% elif brand_code == 'SP' %}
+                  스페시픽
+              {% elif brand_code == 'AN' %}
+                  아나멧
+              {% elif brand_code == 'HP' %}
+                  해피팡팡
+              {% elif brand_code == 'IN' %}
+                  이나바
+              {% elif brand_code == 'IR' %}
+                  아이디얼
+              {% elif brand_code == 'WT' %}
+                  웰츠
+              {% elif brand_code == 'PB' %}
+                  펫보타닉스
+              {% elif brand_code == 'NH' %}
+                  네츄럴홀릭
+              {% elif brand_code == 'PV' %}
+                  퓨어비타
+              {% elif brand_code == 'DT' %}
+                  닥터팀
+              {% elif brand_code == 'KN' %}
+                  k9네츄럴
+              {% elif brand_code == 'TD' %}
+                  더독닥터
+              {% elif brand_code == 'AP' %}
+                  알포
+              {% elif brand_code == 'DP' %}
+                  도그퓨어
+              {% elif brand_code == 'FO' %}
+                  에프시원
+              {% elif brand_code == 'ZS' %}
+                  재스트
+              {% elif brand_code == 'NR' %}
+                  뉴알엑스
+              {% elif brand_code == 'NS' %}
+                  뉴트리소스
+              {% endif %}
+          </option>
+      {% endfor %}
+  </select>
+    
+  <script>
+    document.getElementById("brand_select").addEventListener("change", function () {
+        var selectedBrand = this.value;
+        var url = selectedBrand ? "{% url 'product_view_brand' brand_code='dummy' %}" + selectedBrand + "/" : "{% url 'product_view' %}";
+        window.location.href = url.replace('dummy/', '');  // 브랜드 코드가 없을 때 '/dummy'를 제거합니다.
+    });
+</script>
+  
+
+    <!-- 제품 정보 -->
+    <div class="container">
+      <div class="row">
+        {% for product in products %}
+        <!-- 제품 표시 -->
+        <div class="col-md-4">
+          <div class="card mb-4 box-shadow">
+            <a href="{% url 'product_detail' product.product_id %}" style="text-decoration: none; color: inherit;">
+              <img
+                class="card-img-top"
+                src="{% static product.image %}"
+                alt="{{ product.name }}"
+                width="100"
+                height="400"
+              />
+              <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <h5 class="card-text">가격: {{ product.price }}원</h5>
+                <h5 class="card-text">브랜드: {{ product.brand }}</h5>
+              </div>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
